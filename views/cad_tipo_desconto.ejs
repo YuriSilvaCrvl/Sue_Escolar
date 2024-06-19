@@ -1,0 +1,66 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>CRUD Tipos de Desconto</title>
+</head>
+<body>
+    <%- include('navbar') %>
+    <h1>CRUD de Tipos de Desconto</h1>
+
+    <!-- Formulário para adicionar ou editar tipos de desconto -->
+    <form action="/editar_tipo_desconto" method="POST">
+        <label for="tipo_desconto">Descrição:</label>
+        <input type="text" id="tipo_desconto" name="tipo_desconto" required />
+        <br />
+        <button type="submit" name="action" value="alterar">Alterar</button>
+        <button type="submit" name="action" value="incluir">Incluir</button>
+        <input type="hidden" id="id_tipo_desconto" name="id_tipo_desconto" />
+    </form>
+
+    <!-- Tabela para exibir os tipos de desconto -->
+    <h2>Relação de Tipos de Desconto Cadastrados</h2>
+    <table border="1">
+        <thead>
+            <tr>
+                <th>Descrição</th>
+                <th>Ações</th>
+            </tr>
+        </thead>
+        <tbody>
+            <% tipos_desconto.forEach(function(tipo_desconto) { %>
+            <tr>
+                <td><%= tipo_desconto.tipo_desconto %></td> <!-- Corrigido o nome do campo -->
+                <td>
+                    <!-- Botão para editar tipo de desconto -->
+                    <button
+                        onclick="preencherFormulario('<%= tipo_desconto.tipo_desconto %>', '<%= tipo_desconto.id_desconto %>')" <!-- Corrigido o nome do campo -->
+                    >
+                        Editar
+                    </button>
+                    <!-- Botão para excluir tipo de desconto -->
+                    <form
+                        action="/excluir_tipo_desconto/<%= tipo_desconto.id_desconto %>"
+                        method="POST"
+                    >
+                        <button type="submit">Excluir</button>
+                    </form>
+                </td>
+            </tr>
+            <% }); %>
+        </tbody>
+    </table>
+
+    <script>
+        // Função para preencher os campos do formulário ao clicar em editar
+        function preencherFormulario(
+            descricao,
+            idTipoDesconto
+        ) {
+            document.getElementById("tipo_desconto").value = descricao; 
+            document.getElementById("id_tipo_desconto").value = idTipoDesconto;
+        }
+    </script>
+</body>
+</html>

@@ -1,0 +1,66 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>CRUD Formas de Pagamento</title>
+</head>
+<body>
+    <%- include('navbar') %>
+    <h1>CRUD de Formas de Pagamento</h1>
+
+    <!-- Formulário para adicionar ou editar formas de pagamento -->
+    <form action="/editar_forma_pagamento" method="POST">
+        <label for="desc_pagamento">Descrição:</label>
+        <input type="text" id="desc_pagamento" name="desc_pagamento" required />
+        <br />
+        <button type="submit" name="action" value="alterar">Alterar</button>
+        <button type="submit" name="action" value="incluir">Incluir</button>
+        <input type="hidden" id="id_pagamento" name="id_pagamento" />
+    </form>
+
+    <!-- Tabela para exibir as formas de pagamento -->
+    <h2>Relação de Formas de Pagamento Cadastradas</h2>
+    <table border="1">
+        <thead>
+            <tr>
+                <th>Descrição</th>
+                <th>Ações</th>
+            </tr>
+        </thead>
+        <tbody>
+            <% formas_pagamento.forEach(function(forma_pagamento) { %>
+            <tr>
+                <td><%= forma_pagamento.desc_pagamento %></td>
+                <td>
+                    <!-- Botão para editar forma de pagamento -->
+                    <button
+                        onclick="preencherFormulario('<%= forma_pagamento.desc_pagamento %>', '<%= forma_pagamento.id_pagamento %>')"
+                    >
+                        Editar
+                    </button>
+                    <!-- Botão para excluir forma de pagamento -->
+                    <form
+                        action="/excluir_forma_pagamento/<%= forma_pagamento.id_pagamento %>"
+                        method="POST"
+                    >
+                        <button type="submit">Excluir</button>
+                    </form>
+                </td>
+            </tr>
+            <% }); %>
+        </tbody>
+    </table>
+
+    <script>
+        // Função para preencher os campos do formulário ao clicar em editar
+        function preencherFormulario(
+            descricao,
+            idPagamento
+        ) {
+            document.getElementById("desc_pagamento").value = descricao;
+            document.getElementById("id_pagamento").value = idPagamento;
+        }
+    </script>
+</body>
+</html>

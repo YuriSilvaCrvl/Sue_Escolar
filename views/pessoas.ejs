@@ -1,0 +1,23 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Exemplo</title>
+</head>
+<body>
+    <h1>Lista de Pessoas</h1>
+    <table border="1">
+        <tr>
+            <th>Nome</th>
+            <th>Idade</th>
+        </tr>
+        <% pessoas.forEach(function(pessoas) { %>
+        <tr>  
+            <td><%= pessoas.nome %></td>
+            <td><%= pessoas.idade %></td>
+        </tr>
+        <% }); %>
+    </table>
+</body>
+</html>

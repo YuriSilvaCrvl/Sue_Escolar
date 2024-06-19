@@ -1,0 +1,97 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>CRUD Disciplinas</title>
+  </head>
+  <body>
+    <%- include('navbar') %>
+    <h1>CRUD de Disciplinas</h1>
+
+    <!-- Formulário para adicionar ou editar disciplinas -->
+    <!-- <form action="/editar_disciplina" method="POST"> -->
+    <!-- <form action="/editardisciplina" method="POST"> -->
+    <form action="/editar_disciplina" method="POST">
+      <label for="nome_disciplina">Nome:</label>
+      <input type="text" id="nome_disciplina" name="nome_disciplina" required />
+      <br />
+      <label for="carga_horaria">Carga Horária:</label>
+      <input type="number" id="carga_horaria" name="carga_horaria" required />
+      <br />
+      <label for="descricao_disciplina">Descrição:</label>
+      <input
+        type="text"
+        id="descricao_disciplina"
+        name="descricao_disciplina"
+        required
+      />
+      <br />
+      <!-- <button type="submit">Editar Disciplina</button> -->
+      <button type="submit" name="action" value="alterar">Alterar</button>
+      <button type="submit" name="action" value="incluir">Incluir</button>
+      <input type="hidden" id="id_disciplina" name="id_disciplina" />
+    </form>
+    <!--     <form action="/editar_disciplina" method="POST">
+      <button type="submit">Editar Disciplina</button>
+      <button type="submit" name="action" value="alterar">Alterar</button>
+      <button type="submit" name="action" value="incluir">Incluir</button>
+      <input type="hidden" id="id_disciplina" name="id_disciplina" />
+    </form> -->
+    <!--nome_disciplina, carga_horaria, descricao_disciplina -->
+
+    <!-- Tabela para exibir as disciplinas -->
+    <h2>Relação de Disciplinas Cadastradas</h2>
+    <table border="1">
+      <thead>
+        <tr>
+          <th>Nome</th>
+          <th>Carga Horária</th>
+          <th>Descrição</th>
+          <th>Ações</th>
+        </tr>
+      </thead>
+      <tbody>
+        <% disciplinas.forEach(function(disciplina) { %>
+        <tr>
+          <td><%= disciplina.nome_disciplina %></td>
+          <td><%= disciplina.carga_horaria %></td>
+          <td><%= disciplina.descricao_disciplina %></td>
+          <td>
+            <!-- Botão para editar disciplina -->
+            <!-- action="/editar_disciplina/<%= disciplina.id_disciplina %>" -->
+            <!-- IMPORTANTE: O BOTÃO DEVE ESTAR FORA DO FORMULÁRIO PORQUE SERVE APENAS PARA MOSTRAR OS DADOS DA LINHA DA TABELA NO FORM PRINCIPAL -->
+            <button
+              onclick="preencherFormulario('<%= disciplina.nome_disciplina %>', '<%= disciplina.carga_horaria %>', '<%= disciplina.descricao_disciplina %>', '<%= disciplina.id_disciplina %>')"
+            >
+              Editar
+            </button>
+            <!-- Botão para excluir disciplina -->
+            <form
+              action="/excluir_disciplina/<%= disciplina.id_disciplina %>"
+              method="POST"
+            >
+              <button type="submit">Excluir</button>
+            </form>
+          </td>
+        </tr>
+        <% }); %>
+      </tbody>
+    </table>
+
+    <script>
+      // Função para preencher os campos do formulário ao clicar em editar
+      function preencherFormulario(
+        nome,
+        cargaHoraria,
+        descricao,
+        disciplinaId
+      ) {
+        document.getElementById("nome_disciplina").value = nome;
+        document.getElementById("carga_horaria").value = cargaHoraria;
+        document.getElementById("descricao_disciplina").value = descricao;
+        document.getElementById("id_disciplina").value = disciplinaId;
+      }
+    </script>
+  </body>
+</html>

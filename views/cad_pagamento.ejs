@@ -1,0 +1,115 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>CRUD Pagamentos</title>
+</head>
+<body>
+    <%- include('navbar') %>
+    <h1>CRUD de Pagamentos</h1>
+
+    <!-- Formulário para adicionar ou editar pagamentos -->
+    <form action="/editar_pagamento" method="POST">
+        <label for="id_aluno">ID do Aluno:</label>
+        <input type="number" id="id_aluno" name="id_aluno" required />
+        <br />
+        <label for="id_responsavel">ID do Responsável:</label>
+        <input type="number" id="id_responsavel" name="id_responsavel" required />
+        <br />
+        <label for="valor_pago">Valor Pago:</label>
+        <input type="number" step="0.01" id="valor_pago" name="valor_pago" required />
+        <br />
+        <label for="valor_devido">Valor Devido:</label>
+        <input type="number" step="0.01" id="valor_devido" name="valor_devido" required />
+        <br />
+        <label for="data_pagamento">Data de Pagamento:</label>
+        <input type="date" id="data_pagamento" name="data_pagamento" required />
+        <br />
+        <label for="data_vencimento">Data de Vencimento:</label>
+        <input type="date" id="data_vencimento" name="data_vencimento" required />
+        <br />
+        <label for="id_fpagamento">ID do Forma de Pagamento:</label>
+        <input type="number" id="id_fpagamento" name="id_fpagamento" required />
+        <br />
+        <label for="tipo_desconto_id">ID do Tipo de Desconto:</label>
+        <input type="number" id="tipo_desconto_id" name="tipo_desconto_id" required />
+        <br />
+        <button type="submit" name="action" value="alterar">Alterar</button>
+        <button type="submit" name="action" value="incluir">Incluir</button>
+        <input type="hidden" id="id_pagamento" name="id_pagamento" />
+    </form>
+
+    <!-- Tabela para exibir os pagamentos -->
+    <h2>Relação de Pagamentos Efetuados</h2>
+    <table border="1">
+        <thead>
+            <tr>
+                <th>ID do Aluno</th>
+                <th>ID do Responsável</th>
+                <th>Valor Pago</th>
+                <th>Valor Devido</th>
+                <th>Data de Pagamento</th>
+                <th>Data de Vencimento</th>
+                <th>ID da Forma de Pagamento</th>
+                <th>ID do Tipo de Desconto</th>
+                <th>Ações</th>
+            </tr>
+        </thead>
+        <tbody>
+            <% pagamentos.forEach(function(pagamento) { %>
+            <tr>
+                <td><%= pagamento.id_aluno %></td>
+                <td><%= pagamento.id_responsavel %></td>
+                <td><%= pagamento.valor_pago %></td>
+                <td><%= pagamento.valor_devido %></td>
+                <td><%= pagamento.data_pagamento %></td>
+                <td><%= pagamento.data_vencimento %></td>
+                <td><%= pagamento.id_fpagamento %></td>
+                <td><%= pagamento.tipo_desconto_id %></td>
+                <td>
+                    <!-- Botão para editar pagamento -->
+                    <button
+                        onclick="preencherFormulario('<%= pagamento.id_aluno %>', '<%= pagamento.id_responsavel %>', '<%= pagamento.valor_pago %>', '<%= pagamento.valor_devido %>', '<%= pagamento.data_pagamento %>', '<%= pagamento.data_vencimento %>', '<%= pagamento.id_fpagamento %>', '<%= pagamento.tipo_desconto_id %>', '<%= pagamento.id_pagamento %>')"
+                    >
+                        Editar
+                    </button>
+                    <!-- Botão para excluir pagamento -->
+                    <form
+                        action="/excluir_pagamento/<%= pagamento.id_pagamento %>"
+                        method="POST"
+                    >
+                        <button type="submit">Excluir</button>
+                    </form>
+                </td>
+            </tr>
+            <% }); %>
+        </tbody>
+    </table>
+
+    <script>
+        // Função para preencher os campos do formulário ao clicar em editar
+        function preencherFormulario(
+            id_aluno,
+            id_responsavel,
+            valor_pago,
+            valor_devido,
+            data_pagamento,
+            data_vencimento,
+            id_fpagamento,
+            tipo_desconto_id,
+            pagamentoId
+        ) {
+            document.getElementById("id_aluno").value = id_aluno;
+            document.getElementById("id_responsavel").value = id_responsavel;
+            document.getElementById("valor_pago").value = valor_pago;
+            document.getElementById("valor_devido").value = valor_devido;
+            document.getElementById("data_pagamento").value = data_pagamento;
+            document.getElementById("data_vencimento").value = data_vencimento;
+            document.getElementById("id_fpagamento").value = id_fpagamento;
+            document.getElementById("tipo_desconto_id").value = tipo_desconto_id;
+            document.getElementById("id_pagamento").value = pagamentoId;
+        }
+    </script>
+</body>
+</html>

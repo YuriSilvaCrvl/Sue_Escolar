@@ -1,0 +1,89 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Cadastro de Curso</title>
+</head>
+<body>
+    <h1>Cadastro de Curso</h1>
+
+    <!-- Formulário para adicionar ou editar curso -->
+    <form action="/editar_cursos" method="POST">
+        <label for="nome_curso">Nome do Curso:</label>
+        <input type="text" id="nome_curso" name="nome_curso" required />
+        <br />
+        <label for="descricao_curso">Descrição do Curso:</label>
+        <input type="text" id="descricao_curso" name="descricao_curso" required />
+        <br />
+        <label for="carga_horaria_total">Carga Horária Total:</label>
+        <input type="number" id="carga_horaria_total" name="carga_horaria_total" required />
+        <br />
+        <label for="periodo">Período:</label>
+        <input type="text" id="periodo" name="periodo" required />
+        <br />
+        <label for="id_coordenador">ID do Coordenador:</label>
+        <input type="number" id="id_coordenador" name="id_coordenador" required />
+        <br />
+        <button type="submit" name="action" value="incluir">Incluir</button>
+        <button type="submit" name="action" value="alterar">Alterar</button>
+        <input type="hidden" id="id_curso" name="id_curso" />
+    </form>
+
+    <!-- Tabela para exibir os cursos -->
+    <h2>Relação de Cursos Cadastrados</h2>
+    <table border="1">
+        <thead>
+            <tr>
+                <th>ID</th>
+                <th>Nome</th>
+                <th>Descrição</th>
+                <th>Carga Horária</th>
+                <th>Período</th>
+                <th>ID Coordenador</th>
+                <th>Ações</th>
+            </tr>
+        </thead>
+        <tbody>
+            <% cursos.forEach(function(curso) { %>
+            <tr>
+                <td><%= curso.id_curso %></td>
+                <td><%= curso.nome_curso %></td>
+                <td><%= curso.descricao_curso %></td>
+                <td><%= curso.carga_horaria_total %></td>
+                <td><%= curso.periodo %></td>
+                <td><%= curso.id_coordenador %></td>
+                <td>
+                    <!-- Botão para editar curso -->
+                    <button
+                        onclick="preencherFormulario('<%= curso.id_curso %>', '<%= curso.nome_curso %>', '<%= curso.descricao_curso %>', '<%= curso.carga_horaria_total %>', '<%= curso.periodo %>', '<%= curso.id_coordenador %>')"
+                    >
+                        Editar
+                    </button>
+                    <!-- Botão para excluir curso -->
+                    <form
+                        action="/excluir_cursos/<%= curso.id_curso %>"
+                        method="POST"
+                        style="display:inline;"
+                    >
+                        <button type="submit">Excluir</button>
+                    </form>
+                </td>
+            </tr>
+            <% }); %>
+        </tbody>
+    </table>
+
+    <script>
+        // Função para preencher os campos do formulário ao clicar em editar
+        function preencherFormulario(id, nome, descricao, cargaHoraria, periodo, idCoordenador) {
+            document.getElementById("id_curso").value = id;
+            document.getElementById("nome_curso").value = nome;
+            document.getElementById("descricao_curso").value = descricao;
+            document.getElementById("carga_horaria_total").value = cargaHoraria;
+            document.getElementById("periodo").value = periodo;
+            document.getElementById("id_coordenador").value = idCoordenador;
+        }
+    </script>
+</body>
+</html>

@@ -1,0 +1,115 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>CRUD Responsáveis</title>
+</head>
+<body>
+    <%- include('navbar') %>
+    <h1>CRUD de Responsáveis</h1>
+
+    <!-- Formulário para adicionar ou editar responsáveis -->
+    <form action="/editar_responsavel" method="POST">
+        <label for="nome_responsavel">Nome:</label>
+        <input type="text" id="nome_responsavel" name="nome_responsavel" required />
+        <br />
+        <label for="email">Email:</label>
+        <input type="email" id="email" name="email" required />
+        <br />
+        <label for="tipo_logradouro">Tipo de Logradouro:</label>
+        <input type="text" id="tipo_logradouro" name="tipo_logradouro" required />
+        <br />
+        <label for="logradouro">Logradouro:</label>
+        <input type="text" id="logradouro" name="logradouro" required />
+        <br />
+        <label for="numero">Número:</label>
+        <input type="number" id="numero" name="numero" required />
+        <br />
+        <label for="bairro">Bairro:</label>
+        <input type="text" id="bairro" name="bairro" required />
+        <br />
+        <label for="cidade">Cidade:</label>
+        <input type="text" id="cidade" name="cidade" required />
+        <br />
+        <label for="estado">Estado:</label>
+        <input type="text" id="estado" name="estado" required />
+        <br />
+        <button type="submit" name="action" value="alterar">Alterar</button>
+        <button type="submit" name="action" value="incluir">Incluir</button>
+        <input type="hidden" id="id_responsavel" name="id_responsavel" />
+    </form>
+
+    <!-- Tabela para exibir os responsáveis -->
+    <h2>Relação de Responsáveis Cadastrados</h2>
+    <table border="1">
+        <thead>
+            <tr>
+                <th>Nome</th>
+                <th>Email</th>
+                <th>Tipo Logradouro</th>
+                <th>Logradouro</th>
+                <th>Número</th>
+                <th>Bairro</th>
+                <th>Cidade</th>
+                <th>Estado</th>
+                <th>Ações</th>
+            </tr>
+        </thead>
+        <tbody>
+            <% responsaveis.forEach(function(responsavel) { %>
+            <tr>
+                <td><%= responsavel.nome_responsavel %></td>
+                <td><%= responsavel.email %></td>
+                <td><%= responsavel.tipo_logradouro %></td>
+                <td><%= responsavel.logradouro %></td>
+                <td><%= responsavel.numero %></td>
+                <td><%= responsavel.bairro %></td>
+                <td><%= responsavel.cidade %></td>
+                <td><%= responsavel.estado %></td>
+                <td>
+                    <!-- Botão para editar responsável -->
+                    <button
+                        onclick="preencherFormulario('<%= responsavel.nome_responsavel %>', '<%= responsavel.email %>', '<%= responsavel.tipo_logradouro %>', '<%= responsavel.logradouro %>', '<%= responsavel.numero %>', '<%= responsavel.bairro %>', '<%= responsavel.cidade %>', '<%= responsavel.estado %>', '<%= responsavel.id_responsavel %>')"
+                    >
+                        Editar
+                    </button>
+                    <!-- Botão para excluir responsável -->
+                    <form
+                        action="/excluir_responsavel/<%= responsavel.id_responsavel %>"
+                        method="POST"
+                    >
+                        <button type="submit">Excluir</button>
+                    </form>
+                </td>
+            </tr>
+            <% }); %>
+        </tbody>
+    </table>
+
+    <script>
+        // Função para preencher os campos do formulário ao clicar em editar
+        function preencherFormulario(
+            nome,
+            email,
+            tipoLogradouro,
+            logradouro,
+            numero,
+            bairro,
+            cidade,
+            estado,
+            responsavelId
+        ) {
+            document.getElementById("nome_responsavel").value = nome;
+            document.getElementById("email").value = email;
+            document.getElementById("tipo_logradouro").value = tipoLogradouro;
+            document.getElementById("logradouro").value = logradouro;
+            document.getElementById("numero").value = numero;
+            document.getElementById("bairro").value = bairro;
+            document.getElementById("cidade").value = cidade;
+            document.getElementById("estado").value = estado;
+            document.getElementById("id_responsavel").value = responsavelId;
+        }
+    </script>
+</body>
+</html>

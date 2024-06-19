@@ -1,0 +1,104 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>CRUD Disciplina-Curso</title>
+  </head>
+  <body>
+    <h1>CRUD de Disciplina-Curso</h1>
+
+    <!-- Formulário para adicionar ou editar associação entre curso e disciplina -->
+    <form action="/editar_disciplina_curso" method="POST">
+      <!-- Select para escolher o curso -->
+      <label for="curso">Curso:</label>
+      <select id="curso" name="curso" required>
+        <% cursos.forEach(function(curso) { %>
+        <option value="<%= curso.id_curso %>" data-id="<%= curso.id_curso %>">
+          <%= curso.nome_curso %>
+        </option>
+        <% }); %>
+      </select>
+      <br />
+
+      <!-- Select para escolher a disciplina -->
+      <label for="disciplina">Disciplina:</label>;
+      <select id="disciplina" name="disciplina" required>
+        <% disciplinas.forEach(function(disciplina) { %>
+        <option
+          value="<%= disciplina.id_disciplina %>"
+          data-id="<%= disciplina.id_disciplina %>"
+        >
+          <%= disciplina.nome_disciplina %>
+        </option>
+        <% }); %>
+      </select>
+      <br />
+
+      <!-- Botões para confirmar a inclusão ou edição -->
+      <button type="submit" name="action" value="alterar">Alterar</button>
+      <button type="submit" name="action" value="incluir">Incluir</button>
+      <input type="hidden" id="id_curso" name="id_curso" />
+      <input type="hidden" id="id_disciplina" name="id_disciplina" />
+    </form>
+
+    <!-- Tabela para exibir as associações entre curso e disciplina -->
+    <h2>Associações entre Curso e Disciplina</h2>
+    <table border="1">
+      <thead>
+        <tr>
+          <th>Curso</th>
+          <th>Disciplina</th>
+          <th>Ações</th>
+        </tr>
+      </thead>
+      <tbody>
+        <% disciplinaCursosVW.forEach(function(disciplinaCursoVW) { %>
+        <tr>
+          <td><%= disciplinaCursoVW.nome_curso %></td>
+          <td><%= disciplinaCursoVW.nome_disciplina %></td>
+          <td>
+            <!-- Botão para editar associação -->
+            <button
+              onclick="preencherFormulario('<%= disciplinaCursoVW.id_curso %>', '<%= disciplinaCursoVW.id_disciplina %>')"
+            >
+              Editar
+            </button>
+            <!-- Formulário para excluir associação -->
+            <form
+              action="/excluir_disciplina_curso/<%= disciplinaCursoVW.id_curso %>/<%= disciplinaCursoVW.id_disciplina %>"
+              method="POST"
+            >
+              <button type="submit">Excluir</button>
+            </form>
+          </td>
+        </tr>
+        <% }); %>
+      </tbody>
+    </table>
+
+    <script>
+      // Funções para obter nomes a partir dos IDs
+      function getCursoNome(id_curso) {
+        const cursos = "<%= JSON.stringify(cursos) %>";
+        const curso = cursos.find((c) => c.id_curso === id_curso);
+        return curso ? curso.nome_curso : "Curso não encontrado";
+      }
+
+      function getDisciplinaNome(id_disciplina) {
+        const disciplinas = "<%= JSON.stringify(disciplinas) %>";
+        const disciplina = disciplinas.find(
+          (d) => d.id_disciplina === id_disciplina
+        );
+        return disciplina
+          ? disciplina.nome_disciplina
+          : "Disciplina não encontrada";
+      }
+      // Função para preencher os campos do formulário ao clicar em editar
+      function preencherFormulario(cursoId, disciplinaId) {
+        document.getElementById("curso").value = cursoId;
+        document.getElementById("disciplina").value = disciplinaId;
+      }
+    </script>
+  </body>
+</html>

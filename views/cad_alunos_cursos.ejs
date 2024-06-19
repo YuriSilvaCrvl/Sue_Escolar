@@ -1,0 +1,68 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Cadastro de Alunos e Cursos</title>
+  </head>
+  <body>
+    <%- include('navbar') %>
+    <h1>Cadastro de Alunos e Cursos</h1>
+
+    <!-- Formulário para adicionar ou editar relações aluno-curso -->
+    <form action="/editar_aluno_curso" method="POST">
+      <label for="id_aluno">ID do Aluno:</label>
+      <input type="number" id="id_aluno" name="id_aluno" required />
+      <br />
+      <label for="id_curso">ID do Curso:</label>
+      <input type="number" id="id_curso" name="id_curso" required />
+      <br />
+      <button type="submit" name="action" value="alterar">Alterar</button>
+      <button type="submit" name="action" value="incluir">Incluir</button>
+    </form>
+
+    <!-- Tabela para exibir as relações aluno-curso -->
+    <h2>Relações Aluno-Curso</h2>
+    <table border="1">
+      <thead>
+        <tr>
+          <th>ID do Aluno</th>
+          <th>ID do Curso</th>
+          <th>Ações</th>
+        </tr>
+      </thead>
+      <tbody>
+        <% alunosCursos.forEach(function(alunoCurso) { %>
+        <tr>
+          <td><%= alunoCurso.id_aluno %></td>
+          <td><%= alunoCurso.id_curso %></td>
+          <td>
+            <!-- Botão para editar relação aluno-curso -->
+            <button
+              onclick="preencherFormulario('<%= alunoCurso.id_aluno %>', '<%= alunoCurso.id_curso %>')"
+            >
+              Editar
+            </button>
+            <!-- Botão para excluir relação aluno-curso -->
+            <form
+              action="/excluir_aluno_curso/<%= alunoCurso.id_aluno %>/<%= alunoCurso.id_curso %>"
+              method="POST"
+              style="display:inline;"
+            >
+              <button type="submit">Excluir</button>
+            </form>
+          </td>
+        </tr>
+        <% }); %>
+      </tbody>
+    </table>
+
+    <script>
+      // Função para preencher os campos do formulário ao clicar em editar
+      function preencherFormulario(idAluno, idCurso) {
+        document.getElementById("id_aluno").value = idAluno;
+        document.getElementById("id_curso").value = idCurso;
+      }
+    </script>
+  </body>
+</html>

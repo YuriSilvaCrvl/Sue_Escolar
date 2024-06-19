@@ -1,0 +1,136 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>CRUD Alunos</title>
+  </head>
+  <body>
+    <%- include('navbar') %>
+    <h1>CRUD de Alunos</h1>
+
+    <!-- Formulário para adicionar ou editar alunos -->
+    <form action="/editar_aluno" method="POST">
+      <label for="nome_aluno">Nome:</label>
+      <input type="text" id="nome_aluno" name="nome_aluno" required />
+      <br />
+      <label for="data_nascimento">Data de Nascimento:</label>
+      <input type="date" id="data_nascimento" name="data_nascimento" required />
+      <br />
+      <label for="genero">Gênero:</label>
+      <input type="text" id="genero" name="genero" required />
+      <br />
+      <label for="email">Email:</label>
+      <input type="email" id="email" name="email" required />
+      <br />
+      <label for="tipo_logradouro">Tipo de Logradouro:</label>
+      <input type="text" id="tipo_logradouro" name="tipo_logradouro" required />
+      <br />
+      <label for="logradouro">Logradouro:</label>
+      <input type="text" id="logradouro" name="logradouro" required />
+      <br />
+      <label for="numero">Número:</label>
+      <input type="number" id="numero" name="numero" required />
+      <br />
+      <label for="bairro">Bairro:</label>
+      <input type="text" id="bairro" name="bairro" required />
+      <br />
+      <label for="cidade">Cidade:</label>
+      <input type="text" id="cidade" name="cidade" required />
+      <br />
+      <label for="estado">Estado:</label>
+      <input type="text" id="estado" name="estado" required />
+      <br />
+      <label for="id_responsavel">ID do Responsável:</label>
+      <input type="number" id="id_responsavel" name="id_responsavel" required />
+      <br />
+      <button type="submit" name="action" value="alterar">Alterar</button>
+      <button type="submit" name="action" value="incluir">Incluir</button>
+      <input type="hidden" id="id_aluno" name="id_aluno" />
+    </form>
+
+    <!-- Tabela para exibir os alunos -->
+    <h2>Relação de Alunos Cadastrados</h2>
+    <table border="1">
+      <thead>
+        <tr>
+          <th>Nome</th>
+          <th>Data de Nascimento</th>
+          <th>Gênero</th>
+          <th>Email</th>
+          <th>Tipo Logradouro</th>
+          <th>Logradouro</th>
+          <th>Número</th>
+          <th>Bairro</th>
+          <th>Cidade</th>
+          <th>Estado</th>
+          <th>ID Responsável</th>
+          <th>Ações</th>
+        </tr>
+      </thead>
+      <tbody>
+        <% alunos.forEach(function(aluno) { %>
+        <tr>
+          <td><%= aluno.nome_aluno %></td>
+          <td><%= aluno.data_nascimento %></td>
+          <td><%= aluno.genero %></td>
+          <td><%= aluno.email %></td>
+          <td><%= aluno.tipo_logradouro %></td>
+          <td><%= aluno.logradouro %></td>
+          <td><%= aluno.numero %></td>
+          <td><%= aluno.bairro %></td>
+          <td><%= aluno.cidade %></td>
+          <td><%= aluno.estado %></td>
+          <td><%= aluno.id_responsavel %></td>
+          <td>
+            <!-- Botão para editar aluno -->
+            <button
+              onclick="preencherFormulario('<%= aluno.nome_aluno %>', '<%= aluno.data_nascimento %>', '<%= aluno.genero %>', '<%= aluno.email %>', '<%= aluno.tipo_logradouro %>', '<%= aluno.logradouro %>', '<%= aluno.numero %>', '<%= aluno.bairro %>', '<%= aluno.cidade %>', '<%= aluno.estado %>', '<%= aluno.id_responsavel %>', '<%= aluno.id_aluno %>')"
+            >
+              Editar
+            </button>
+            <!-- Botão para excluir aluno -->
+            <form
+              action="/excluir_aluno/<%= aluno.id_aluno %>"
+              method="POST"
+            >
+              <button type="submit">Excluir</button>
+            </form>
+          </td>
+        </tr>
+        <% }); %>
+      </tbody>
+    </table>
+
+    <script>
+      // Função para preencher os campos do formulário ao clicar em editar
+      function preencherFormulario(
+        nome,
+        dataNascimento,
+        genero,
+        email,
+        tipoLogradouro,
+        logradouro,
+        numero,
+        bairro,
+        cidade,
+        estado,
+        idResponsavel,
+        alunoId
+      ) {
+        document.getElementById("nome_aluno").value = nome;
+        document.getElementById("data_nascimento").value = dataNascimento;
+        document.getElementById("genero").value = genero;
+        document.getElementById("email").value = email;
+        document.getElementById("tipo_logradouro").value = tipoLogradouro;
+        document.getElementById("logradouro").value = logradouro;
+        document.getElementById("numero").value = numero;
+        document.getElementById("bairro").value = bairro;
+        document.getElementById("cidade").value = cidade;
+        document.getElementById("estado").value = estado;
+        document.getElementById("id_responsavel").value = idResponsavel;
+        document.getElementById("id_aluno").value = alunoId;
+      }
+    </script>
+  </body>
+</html>
